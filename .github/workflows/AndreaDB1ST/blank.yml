@@ -1,0 +1,296 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+- name: Cache
+  uses: actions/cache@v2.1.6
+  with:
+    # A list of files, directories, and wildcard patterns to cache and restore
+    path: 
+    # An explicit key for restoring and saving the cache
+    key: 
+    # An ordered list of keys to use for restoring the cache if no cache hit occurred for key
+    restore-keys: # optional
+    # The chunk size used to split up large files during upload, in bytes
+    upload-chunk-size: # optional
+    - name: Setup Node.js environment
+  uses: actions/setup-node@v2.1.5
+  with:
+    # Set always-auth in npmrc
+    always-auth: # optional, default is false
+    # Version Spec of the version to use.  Examples: 12.x, 10.15.1, >=10.15.0
+    node-version: # optional
+    # Target architecture for Node to use. Examples: x86, x64. Will use system architecture by default.
+    architecture: # optional
+    # Set this option if you want the action to check for the latest available version that satisfies the version spec
+    check-latest: # optional
+    # Optional registry to set up for auth. Will set the registry in a project level .npmrc and .yarnrc file, and set up auth to read in from env.NODE_AUTH_TOKEN
+    registry-url: # optional
+    # Optional scope for authenticating against scoped registries
+    scope: # optional
+    # Used to pull node distributions from node-versions.  Since there's a default, this is typically not supplied by the user.
+    token: # optional, default is ${{ github.token }}
+    # Deprecated. Use node-version instead. Will not be supported after October 1, 2019
+    version: # optional
+    - name: Setup .NET Core SDK
+  uses: actions/setup-dotnet@v1.8.0
+  with:
+    # Optional SDK version to use. If not provided, will install global.json version when available. Examples: 2.2.104, 3.1, 3.1.x
+    dotnet-version: # optional
+    # Optional package source for which to set up authentication. Will consult any existing NuGet.config in the root of the repo and provide a temporary NuGet.config using the NUGET_AUTH_TOKEN environment variable as a ClearTextPassword
+    source-url: # optional
+    # Optional OWNER for using packages from GitHub Package Registry organizations/users other than the current repository's owner. Only used if a GPR URL is also provided in source-url
+    owner: # optional
+    # Optional NuGet.config location, if your NuGet.config isn't located in the root of the repo.
+    config-file: # optional
+    # Whether prerelease versions should be matched with non-exact versions (for example 5.0.0-preview.6 being matched by 5, 5.0, 5.x or 5.0.x). Defaults to false if not provided.
+    include-p- name: Deploy Environment
+  # You may pin to the exact commit or the version.
+  # uses: parasoft/deploy-environment-action@486e9382c6c2958fcbaad60b895da799d16730c2
+  uses: parasoft/deploy-environment-action@1.0.2
+  with:
+    # CTP URL
+    ctpUrl: 
+    # CTP Username
+    ctpUsername: 
+    # CTP Password
+    ctpPassword: 
+    # Name of the system
+    system: 
+    # Name of the environment
+    environment: 
+    # Name of the environment instance to provision
+    instance: 
+    # Fail action and abort on provisioning failure
+    abortOnFailure: # optional
+    # Virtual assets in the environment will be replicated on another server
+    copyToVirtualize: # optional
+    # The environment assets will be copied to a Virtualize server matching this name
+    virtServerName: # optional
+    # The name for the replicated environment can be used to later destroy the environment
+    newEnvironmentName: # optional
+    # Duplicate associated data repositories before provisioning
+    duplicateDataRepo: # optional
+    # Where to duplicate data repository
+    duplicateType: # optional
+    # The host of the data repository server
+    repoHost: # optional
+    # The port of the data repository server
+    repoPort: # optional
+    # The username of the data repository server
+    repoUsername: # optional
+    # The password of the data repository server
+    repoPassword: # optionalrerelease: # optional
+    - name: Steam - Deploy
+  # You may pin to the exact commit or the version.
+  # uses: game-ci/steam-deploy@c18eb6aa08a18e5c4a6c7a1affe355f4031f809e
+  uses: game-ci/steam-deploy@v0.1
+  with:
+    # The app id within steam partner network.
+    appId: # default is 
+    # Description for this build.
+    buildDescription: # optional
+    # The username of your builder account.
+    username: # default is 
+    # The password of your builder account.
+    password: # default is 
+    # The multi-factor authentication code from steam guard, that is emailed when attempting to sign in.
+    mfaCode: # optional, default is 
+    - name: Velocity deploy action
+  # You may pin to the exact commit or the version.
+  # uses: codeclimate/velocity-deploy-action@1b4a22f0db113bf8d85c14fd726cf0ec6d17cd13
+  uses: codeclimate/velocity-deploy-action@v1.0.0
+  with:
+    # Your Velocity deployment token
+    token: 
+    # The version tag for the deploy (i.e. `b123`)
+    version: # optional
+    # The environment of the deploy (i.e. `production`)
+    environment: # optional
+    - name: Azure SQL Deploy
+  uses: Azure/sql-action@v1
+  with:
+    # Name of the Azure SQL Server name, like Fabrikam.database.windows.net.
+    server-name: 
+    # The connection string, including authentication information, for the Azure SQL Server database.
+    connection-string: 
+    # Path to DACPAC file to deploy
+    dacpac-package: # optional
+    # Path to SQL script file to deploy
+    sql-file: # optional
+    # In case DACPAC option is selected, additional SqlPackage.exe arguments that will be applied. When SQL query option is selected, additional sqlcmd.exe arguments will be applied.
+    arguments: # optional
+    - name: Azure MYSQL Deploy
+  uses: Azure/mysql@v1
+  with:
+    # Server name of Azure DB for Mysql. Example: fabrikam.mysql.database.azure.com. When you connect using Mysql Workbench, this is the same value that is used for Hostname in Parameters
+    server-name: 
+    # The connection string, including authentication information, for the Azure MySQL Server. (deprecated)
+    connection-string: # optional
+    # Azure MySQL Server username for login
+    username: # optional
+    # Azure MySQL Server password for login
+    password: # optional
+    # Azure MySQL Server database (optional) to connect to. No database will be used automatically.
+    database: # optional
+    # Path to SQL script file to deploy
+    sql-file: 
+    # Additional options supported by mysql simple SQL shell. These options will be applied when executing the given file on the Azure DB for Mysql.
+    arguments: # optional
+    - name: Cloud Functions Deploy
+  # You may pin to the exact commit or the version.
+  # uses: google-github-actions/deploy-cloud-functions@7faa962492ec7b650406d15004fc19c6880f94d0
+  uses: google-github-actions/deploy-cloud-functions@v0.1.2
+  with:
+    # Optional service account key to use for authentication to GCP. This should be the JSON
+formatted private key which can be exported from the Cloud Console. The
+value can be raw or base64-encoded.
+    credentials: # optional
+    # Name of the Cloud Function.
+    name: 
+    # Description for the Cloud Function.
+    description: # optional
+    # Project to deploy the function in.
+    project_id: # optional
+    # Region to deploy the function in. Defaults to us-central1, if not specified.
+    region: # optional
+    # Path to function deployment directory within the source repo.
+    source_dir: # optional
+    # List of key-value pairs to set as environment variables in the form KEY1=VALUE1,KEY2=VALUE2.
+    env_vars: # optional
+    # Name of a function (as defined in source code) that will be executed. Defaults to the resource name suffix, if not specified. 
+    entry_point: # optional
+    # Runtime to use for the function.
+    runtime: 
+    # The VPC Access connector that the function can connect to.
+    vpc_connector: # optional
+    # The email address of the IAM service account associated with the function at runtime.
+    service_account_email: # optional
+    # The function execution timeout.
+    timeout: # optional
+    # The maximum number of instances for the function.
+    max_instances: # optional
+    # Specifies which action should trigger the function.
+    event_trigger_type: # optional
+    # Specifies which resource from eventTrigger is observed.
+    event_trigger_resource: # optional
+    # The hostname of the service that should be observed.
+    event_trigger_service: # optional
+    - name: Lightstep Pre-Deploy Check
+  # You may pin to the exact commit or the version.
+  # uses: lightstep/lightstep-action-predeploy@22bec553a6d0fb3de5026acb1159085601f76408
+  uses: lightstep/lightstep-action-predeploy@v0.2.6
+  with:
+    # The organization associated with your Lightstep account (usually your company name)
+    lightstep_organization: # optional
+    # The Lightstep project associated with this repository
+    lightstep_project: # optional
+    # The key to access the Lightstep Public API
+    lightstep_api_key: # optional
+    # The token to access the Rollbar API
+    rollbar_api_token: # optional
+    # The token to access the PagerDuty API
+    pagerduty_api_token: # optional
+    # If set to true, collapse all conditions to a single table row
+    rollup_conditions: # optional
+    # If set to true, will not add a comment to pull-requests
+    disable_comment: # optional
+    - name: Deploy to Cloud Run
+  # You may pin to the exact commit or the version.
+  # uses: google-github-actions/deploy-cloudrun@ff8b38330cf81843db9cff366e335c34aa467c44
+  uses: google-github-actions/deploy-cloudrun@v0.3.0
+  with:
+    # Name of the container image to deploy (e.g. gcr.io/cloudrun/hello:latest).
+Required if not using a service YAML.
+    image: # optional
+    # ID of the service or fully qualified identifier for the service.
+Required if not using a service YAML.
+    service: # optional
+    # Region in which the resource can be found.
+    region: # optional, default is us-central1
+    # List of key-value pairs to set as environment variables in the format:
+KEY1=VALUE1,KEY2=VALUE2. All existing environment variables will be
+removed first.
+    env_vars: # optional
+    # YAML serivce description for the Cloud Run service.
+    metadata: # optional
+    # The GCP project ID. Overrides project ID set by credentials.
+    project_id: # optional
+    # Service account key to use for authentication. This should be the JSON
+formatted private key which can be exported from the Cloud Console. The
+value can be raw or base64-encoded. Required if not using a the
+setup-gcloud action with exported credentials.
+    credentials: # optional
+    - name: Await Taktile Deployment
+  # You may pin to the exact commit or the version.
+  # uses: taktile-org/await-taktile-deployment-action@a4fc46fe2d0d4ef6dc52ed91edfd01f77a919783
+  uses: taktile-org/await-taktile-deployment-action@v0.0.3
+  with:
+    # Your Taktile API key
+    TKTL_API_KEY: 
+    - name: Deploy to Kubernetes cluster
+  uses: Azure/k8s-deploy@v1.3
+  with:
+    # Choose the target Kubernetes namespace. If the namespace is not provided, the commands will run in the default namespace.
+    namespace: # optional
+    # Path to the manifest files which will be used for deployment.
+    manifests: # default is 
+    # Fully qualified resource URL of the image(s) to be used for substitutions on the manifest files Example: contosodemo.azurecr.io/helloworld:test
+    images: # optional
+    # Name of a docker-registry secret that has already been set up within the cluster. Each of these secret names are added under imagePullSecrets field for the workloads found in the input manifest files
+    imagepullsecrets: # optional
+    # Version of kubectl. Installs a specific version of kubectl binary
+    kubectl-version: # optional
+    # Deployment strategy to be used. Allowed values are none, canary and blue-green
+    strategy: # optional, default is none
+    # Route based on service, ingress or SMI for blue-green strategy
+    route-method: # optional, default is service
+    # Indicates the buffer time in minutes before the switch is made to the green version (max is 300 min ie. 5hrs)
+    version-switch-buffer: # optional, default is 0
+    # Traffic split method to be used. Allowed values are pod, smi
+    traffic-split-method: # optional, default is pod
+    # Baseline and canary replicas count; valid value i.e between 0 to 100.
+    baseline-and-canary-replicas: # optional, default is 0
+    # Percentage of traffic redirect to canary deployment
+    percentage: # optional, default is 0
+    # Arguments
+    args: # optional
+    # deploy/promote/reject
+    action: # default is deploy
+    # Deploy when a previous deployment already exists. If true then --force argument is added to the apply command
+    force: # optional
+    # Github token
+    token: # default is ${{ github.token }}
+    
